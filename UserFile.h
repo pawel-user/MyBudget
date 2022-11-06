@@ -2,6 +2,7 @@
 #define USERFILE_H
 
 #include <iostream>
+#include <vector>
 
 #include "XmlFile.h"
 #include "User.h"
@@ -13,6 +14,7 @@ class UserFile : public XmlFile {
 public:
     UserFile(string userFilename) : XmlFile(userFilename) {};
     void addUserToFile(User user);
+    vector <User> loadUsersFromFile();
 };
 
 #endif // USERFILE_H
