@@ -8,7 +8,7 @@ void UserManager::registerUser() {
     //}
     userFile.addUserToFile(user);
 
-    cout << endl << "The account was created successfully." << endl << endl;
+    cout << "The account was created successfully." << endl << endl;
     system("pause");
     cin.sync();
 }
@@ -122,6 +122,7 @@ return false;
 void UserManager::logInUser() {
     string login = "", password = "";
 
+    cout << endl;
     do {
         cout << "Enter login: ";
         login = AuxilaryMethods::loadLines();
@@ -131,9 +132,10 @@ void UserManager::logInUser() {
     {
         if (users[i].getLogin() == login)
         {
+            cout << endl;
             for (int numberOfAttempts = 3; numberOfAttempts > 0; numberOfAttempts--)
             {
-                cout << endl << "Enter password. Remaining trails: " << numberOfAttempts << ": ";
+                cout << "Enter password. Remaining trails: " << numberOfAttempts << ": ";
                 password = AuxilaryMethods::loadLines();
 
                     if (users[i].getPassword() == password)
@@ -143,10 +145,12 @@ void UserManager::logInUser() {
                         system("pause");
                         return;
                     } else {
-                        cout << "Password is incorrect (" << numberOfAttempts << " attempts remain)" << endl;
+                        cout << "Password is incorrect." << endl << endl;
+                        system("pause");
+                        system("cls");
                     }
             }
-            cout << endl << "You entered the wrong password three times." << endl;
+            cout << "You entered the wrong password three times." << endl << endl;
             system("pause");
             return;
         }
@@ -163,4 +167,15 @@ bool UserManager::ifLoginCorrect(string login) {
     system("pause");
     system("cls");
     return false;
+}
+
+void UserManager::setLoggedUserId(int newLoggedUserId)
+{
+    if(newLoggedUserId >= 0)
+        loggedUserId = newLoggedUserId;
+}
+
+int UserManager::getLoggedUserId()
+{
+    return loggedUserId;
 }

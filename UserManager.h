@@ -26,7 +26,8 @@ class UserManager {
 public:
     UserManager(string userFilename)
     : userFile(userFilename) {
-
+        loggedUserId = 0;
+        users = userFile.loadUsersFromFile();
     };
     //friend class MyBudget;
     void registerUser();
