@@ -36,6 +36,46 @@ string AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(s
     return text;
 }
 
+double AuxilaryMethods::loadNonNegativeFloatingPointNumber()
+{
+    string enter = "";
+    double number = 0.0;
+    const int NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP = 2;
+
+    while (true)
+    {
+        getline(cin, enter);
+        enter = replaceCommaWithDot(enter);
+
+        stringstream myStream(enter);
+
+        if (myStream >> fixed >> setprecision(NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP) >> number)
+            break;
+        cout << "This is not a non-negative floating-point number. Type again. " << endl;
+    }
+    number = roundToSpecifiedNumberOfDecimalPlaces(number, NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP);
+
+    return number;
+}
+
+double AuxilaryMethods::roundToSpecifiedNumberOfDecimalPlaces(double number, int decimalPlaces) {
+    number *= pow(10, decimalPlaces);
+    number = round(number);
+    number /= pow(10, decimalPlaces);
+
+    return number;
+}
+
+string AuxilaryMethods::replaceCommaWithDot(string text) {
+    for (int i = 0; i < (int) text.size(); i++) {
+        if (text[i] == ',') {
+            text[i] = '.';
+        }
+    }
+    return text;
+}
+
+
 /*string MetodyPomocnicze::konwerjsaIntNaString(int liczba)
 {
     ostringstream ss;

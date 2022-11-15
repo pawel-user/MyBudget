@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <string>
 
 #include "XmlFile.h"
 #include "User.h"
@@ -11,10 +12,13 @@
 using namespace std;
 
 class UserFile : public XmlFile {
+//private:
+
 public:
     UserFile(string userFilename) : XmlFile(userFilename) {};
     void addUserToFile(User user);
     vector <User> loadUsersFromFile();
+    void saveAllUsersToFile(vector <User> users);
 };
 
 #endif // USERFILE_H
