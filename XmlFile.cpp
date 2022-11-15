@@ -17,10 +17,9 @@ bool XmlFile::isFileEmpty() {
         CMarkup mResult( xml.GetResult() );
         if ( mResult.FindElem(MCD_T("read")) ) {
             int length = MCD_STRTOINT(mResult.GetAttrib(MCD_T("length")));
-            //cout << "length = " << length << endl;
-            //system("pause");
-            if (length == 0)
+            if (length == 0) {
                 return true;
+            }
         }
     return false;
     }

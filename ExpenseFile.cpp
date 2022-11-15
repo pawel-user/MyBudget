@@ -1,15 +1,15 @@
-#include "IncomeFile.h"
+#include "ExpenseFile.h"
 
-int IncomeFile::getLastIncomeId() {
-    return lastIncomeId;
+int ExpenseFile::getLastExpenseId() {
+    return lastExpenseId;
 }
 
-void IncomeFile::setLastIncomeId(int currentLastIncomeId) {
-    if (currentLastIncomeId >= 0)
-        lastIncomeId = currentLastIncomeId;
+void ExpenseFile::setLastExpenseId(int currentLastExpenseId) {
+    if (currentLastExpenseId >= 0)
+        lastExpenseId = currentLastExpenseId;
 }
 
-bool IncomeFile::addIncomeToFile(Income income) {
+bool ExpenseFile::addExpenseToFile(Expense expense) {
     CMarkup xml;
     bool fileExists = false;
     bool fileSaved = false;
@@ -19,35 +19,35 @@ bool IncomeFile::addIncomeToFile(Income income) {
     if (!fileExists)
     {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
-        xml.AddElem("Incomes");
+        xml.AddElem("Expenses");
     }
 
     xml.FindElem();
     xml.IntoElem();
-    xml.AddElem("Income");
+    xml.AddElem("Expense");
     xml.IntoElem();
-    xml.AddElem("IncomeId", to_string(income.getIncomeId()));
-    xml.AddElem("UserId", to_string(income.getUserId()));
-    xml.AddElem("IncomeDate", to_string(income.getIncomeDate()));
-    xml.AddElem("Item", income.getItem());
-    xml.AddElem("Amount", to_string(income.getAmount()));
+    xml.AddElem("ExpenseId", to_string(expense.getExpenseId()));
+    xml.AddElem("UserId", to_string(expense.getUserId()));
+    xml.AddElem("ExpenseDate", to_string(expense.getExpenseDate()));
+    xml.AddElem("Item", expense.getItem());
+    xml.AddElem("Amount", to_string(expense.getAmount()));
 
     xml.ResetPos();
 
     fileSaved = xml.Save( loadFilename() );
 
     if (fileSaved == true) {
-        setLastIncomeId(getLastIncomeId() + 1);
+        setLastExpenseId(getLastExpenseId() + 1);
         return true;
     } else {
         return false;
     }
 }
 
-vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
+vector <Expense> ExpenseFile::loadUserExpenses(int loggedUserId) {
     CMarkup xml;
-    vector <Income> incomes;
-    Income income;
+    vector <Expense> expenses;
+    Expense expense;
     bool fileExists = false;
     int userId = 0;
     string fileName = loadFilename();
@@ -64,9 +64,10 @@ vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
 
     } else {
         cout << "File \"" << fileName << "\" uploaded successfully." << endl << endl;
+
         xml.FindElem();
         xml.IntoElem();
-        while (xml.FindElem("Income"))
+        while (xml.FindElem("Expense"))
         {
             xml.IntoElem();
             xml.FindElem("UserId");
@@ -74,34 +75,34 @@ vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
             userId = stoi( strUserId );
 
             if (userId == loggedUserId) {
-                income.setUserId(userId);
+                expense.setUserId(userId);
                 xml.ResetMainPos();
 
-                xml.FindElem("IncomeId");
-                MCD_STR strIncomeId = xml.GetData();
-                income.setIncomeId(stoi(strIncomeId));
+                xml.FindElem("ExpenseId");
+                MCD_STR strExpenseId = xml.GetData();
+                expense.setExpenseId(stoi(strExpenseId));
                 xml.ResetChildPos();
 
                 xml.FindElem("Date");
                 MCD_STR strDate = xml.GetData();
-                income.setIncomeDate(stoi(strDate));
+                expense.setExpenseDate(stoi(strDate));
                 xml.ResetChildPos();
 
                 xml.FindElem("Item");
                 MCD_STR strItem = xml.GetData();
-                income.setItem(strItem);
+                expense.setItem(strItem);
                 xml.ResetChildPos();
 
                 xml.FindElem("Amount");
                 double amount = stod( MCD_2PCSZ(xml.GetData()) );
-                income.setAmount(amount);
+                expense.setAmount(amount);
                 xml.ResetMainPos();
 
-                incomes.push_back(income);
-                lastIncomeId = income.getIncomeId();
+                lastExpenseId = expense.getExpenseId();
+                expenses.push_back(expense);
             }
             xml.OutOfElem();
         }
     }
-    return incomes;
+    return expenses;
 }

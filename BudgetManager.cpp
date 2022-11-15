@@ -54,7 +54,7 @@ Income BudgetManager::enterNewIncome() {
     } else {
         do {
             cout << endl << "Enter date in format (yyyy-mm-dd)," \
-            "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+                 "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
             date = AuxilaryMethods::loadLines();
             incomeDate = DateGenerator::convertDateToInt(date);
             income.setIncomeDate(incomeDate);
@@ -78,3 +78,68 @@ Income BudgetManager::enterNewIncome() {
 void BudgetManager::loadUserIncomes() {
     incomes = incomeFile.loadUserIncomes(LOGGED_USER_ID);
 }
+
+void BudgetManager::addExpense() {
+
+    Expense expense;
+
+    system("cls");
+    cout << " >>> ADDING NEW EXPENSE <<<" << endl << endl;
+    expense = enterNewExpense();
+
+    expenses.push_back(expense);
+
+    if ( expenseFile.addExpenseToFile(expense) )
+        cout << endl << "New expense has been added." << endl;
+    else
+        cout << "Error! Failed to add new expense to file." << endl;
+    system("pause");
+}
+
+Expense BudgetManager::enterNewExpense() {
+    Expense expense;
+    string date = "", item = "";
+    int expenseDate = 0;
+
+    expense.setExpenseId(expenseFile.getLastExpenseId() + 1);
+    expense.setUserId(LOGGED_USER_ID);
+
+    char key = ' ';
+    cout << "Does the expense relate to today?" << endl;
+    cout << "Type 'y' key if yes or other key if no. (y/other key)... ";
+
+    key = tolower(AuxilaryMethods::loadCharacter());
+
+    if (key == 'y') {
+        date = DateGenerator::downloadCurrentDate();
+        expenseDate = DateGenerator::convertDateToInt(date);
+        expense.setExpenseDate(expenseDate);
+        cout << endl << "Current date is: " << date << endl;
+    } else {
+        do {
+            cout << endl << "Enter date in format (yyyy-mm-dd)," \
+                 "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+            date = AuxilaryMethods::loadLines();
+            expenseDate = DateGenerator::convertDateToInt(date);
+            expense.setExpenseDate(expenseDate);
+        } while ( !DateGenerator::checkDate(date) );
+    }
+    cout << "Enter a type of expense: ";
+    item = AuxilaryMethods::loadLines();
+    expense.setItem(AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(item));
+    cout << "Enter amount of the expense: ";
+    expense.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
+
+    cout << expense.getUserId() << endl;
+    cout << expense.getExpenseId() << endl;
+    cout << expense.getExpenseDate() << endl;
+    cout << expense.getItem() << endl;
+    cout << expense.getAmount() << endl;
+
+    return expense;
+}
+
+void BudgetManager::loadUserExpenses() {
+    expenses = expenseFile.loadUserExpenses(LOGGED_USER_ID);
+}
+
