@@ -34,13 +34,6 @@ bool DateGenerator::checkYear(string date) {
     GetSystemTime(&st);
     const int LOWER_LIMIT_OF_YEAR = 2000;
 
-    /*for (int i = 0; i < (int) date.size(); i++) {
-        if ((date[i] != '-'))) {
-            year += date[i];
-        } else {
-            break;
-        }
-    }*/
     breakDateIntoComponents(date);
     year = stoi(myDate.year);
 
@@ -57,13 +50,6 @@ bool DateGenerator::checkMonth(string date) {
     GetSystemTime(&st);
     const int UPPER_LIMIT_OF_MONTH = 12;
 
-    /*for (int i = 0; i < (int) date.size(); i++) {
-        if ((date[i] != '-') && (numberOfHyphenFound == 1)) {
-            month += date[i];
-        } else if ((date[i] == '-')) {
-            numberOfHyphenFound++;
-        }
-    }*/
     month = stoi(myDate.month);
 
     if ((month <= UPPER_LIMIT_OF_MONTH) && (month > 0)) {
@@ -84,14 +70,6 @@ bool DateGenerator::checkDay(string date) {
 
     const int UPPER_LIMIT_OF_DAY = howManyDaysInMonth(month, year);
 
-    /*for (int i = 0; i < (int) date.size(); i++) {
-        if ((date[i] != '-') && (numberOfHyphenFound == 2)) {
-            day += date[i];
-        } else if ((date[i] == '-')) {
-            numberOfHyphenFound++;
-        }
-    }*/
-
     if ((day <= UPPER_LIMIT_OF_DAY) && (day > 0)) {
         return true;
     } else {
@@ -101,6 +79,14 @@ bool DateGenerator::checkDay(string date) {
 
 bool DateGenerator::checkDate(string date) {
     DateGenerator dateGenerator;
+
+    for (int i = 0; i < (int) date.size(); i++) {
+        if ((date[i] < '0' && date[i] != '-') || (date[i] > '9')) {
+            cout << "Incorrect data entered. Try again." << endl;
+            return false;
+        }
+    }
+
     if (dateGenerator.checkYear(date) && dateGenerator.checkMonth(date) && dateGenerator.checkDay(date)) {
         cout << "The date given is correct." << endl;
         return true;
@@ -138,10 +124,7 @@ int DateGenerator::howManyDaysInMonth(int month, int year) {
 }
 
 DateGenerator::MyDate DateGenerator::breakDateIntoComponents(string date) {
-    //int numberIndicatingDay = 0, numberIndicatingMonth = 0, numberIndicatingYear = 0;
     int numberOfHyphenFound = 0;
-
-    //Date date;
 
     SYSTEMTIME st;
     GetSystemTime(&st);
@@ -171,9 +154,31 @@ int DateGenerator::convertDateToInt(string date) {
     }
     numberIndicatingDate = stoi(numericString);
 
-    //cout << dateComponents.year << endl;
-    //cout << dateComponents.month << endl;
-    //cout << dateComponents.day << endl;
-
     return numberIndicatingDate;
+}
+
+string DateGenerator::convertIntToDate(int number) {
+    int year = 0, month = 0, day = 0;
+    string formatDate = "";
+
+    day = number % 100;
+    number /= 100;
+    month = number % 100;
+    number /= 100;
+    year = number;
+
+    formatDate = to_string(year) + "-" + to_string(month) + "-" + to_string(day);
+    return formatDate;
+}
+
+bool DateGenerator::checkFormatDate(string date)
+{
+    for (int i = 0; i < (int) date.size(); i++) {
+        if ( (date[i] < '0' && date[i] != '-') || date[i] > '9' ) {
+            cout << endl << "Incorrect format date entered. Try again." << endl;
+            cout << "Type only numbers and key \"-\" in correct format (yyyy-mm-dd)" << endl << endl;
+            return false;
+        }
+    }
+    return true;
 }

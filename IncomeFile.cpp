@@ -28,10 +28,9 @@ bool IncomeFile::addIncomeToFile(Income income) {
     xml.IntoElem();
     xml.AddElem("IncomeId", to_string(income.getIncomeId()));
     xml.AddElem("UserId", to_string(income.getUserId()));
-    xml.AddElem("IncomeDate", to_string(income.getIncomeDate()));
+    xml.AddElem("IncomeDate", DateGenerator::convertIntToDate( income.getIncomeDate() ));
     xml.AddElem("Item", income.getItem());
     xml.AddElem("Amount", to_string(income.getAmount()));
-
     xml.ResetPos();
 
     fileSaved = xml.Save( loadFilename() );
@@ -79,7 +78,7 @@ vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
 
                 xml.FindElem("IncomeId");
                 MCD_STR strIncomeId = xml.GetData();
-                income.setIncomeId(stoi(strIncomeId));
+                income.setIncomeId( DateGenerator::convertDateToInt(strIncomeId) );
                 xml.ResetChildPos();
 
                 xml.FindElem("Date");

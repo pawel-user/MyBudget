@@ -10,7 +10,7 @@ int main()
     MyBudget myBudget("users.xml", "incomes.xml", "expenses.xml");
     myBudget.displayMainMenu();
     //myBudget.registerUser();
-    BudgetManager budgetManager("incomes.xml", "expenses.xml", 2);
+    BudgetManager budgetManager("incomes.xml", "expenses.xml", 1);
     //myBudget.logInUser();
     //myBudget.changeUserPassword();
     //myBudget.logInUser();

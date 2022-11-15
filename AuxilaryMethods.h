@@ -19,7 +19,7 @@ public:
     static char loadCharacter();
     static string changeTheFirstLetterToUppercaseAndTheOthersToLowercase(string text);
     static double loadNonNegativeFloatingPointNumber();
-    static string replaceCommaWithDot(string text);
+    static string formatCashAmount(string cashAmount);
     static double roundToSpecifiedNumberOfDecimalPlaces(double number, int decimalPlaces);
     //static int wczytajLiczbeCalkowita();
 };

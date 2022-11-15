@@ -22,7 +22,6 @@ public:
         delete budgetManager;
         budgetManager = NULL;
     };
-    //friend class UserManager;
 
     void displayMainMenu();
 //private:

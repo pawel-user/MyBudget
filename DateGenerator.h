@@ -35,7 +35,9 @@ public:
 
     static string downloadCurrentDate();
     static bool checkDate(string date);
+    static bool checkFormatDate(string date);
     static int convertDateToInt(string date);
+    static string convertIntToDate(int number);
 };
 
 #endif  //DATEGENERATOR_H
