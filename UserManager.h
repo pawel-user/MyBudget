@@ -29,9 +29,10 @@ public:
         loggedUserId = 0;
         users = userFile.loadUsersFromFile();
     };
-    //friend class MyBudget;
     void registerUser();
     void logInUser();
+    void logOutUser();
+    void changeUserPassword();
 
     int getLoggedUserId();
     void setLoggedUserId(int newLoggedUserId);

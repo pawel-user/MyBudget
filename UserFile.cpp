@@ -5,10 +5,11 @@ void UserFile::addUserToFile(User user) {
     CMarkup xml;
     bool fileExists;
 
-    fileExists = xml.Load( "users.xml" );
+    fileExists = xml.Load( loadFilename() );
 
     if (!fileExists)
     {
+        xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Users");
     }
 
@@ -24,7 +25,7 @@ void UserFile::addUserToFile(User user) {
 
     xml.ResetPos();
 
-    xml.Save("users.xml");
+    xml.Save(loadFilename());
 
     return;
 }
@@ -35,7 +36,7 @@ vector <User> UserFile::loadUsersFromFile() {
     vector <User> users;
     bool fileExists;
 
-    fileExists = xml.Load( "users.xml" );
+    fileExists = xml.Load( loadFilename() );
 
     if (!fileExists)
     {
@@ -47,17 +48,14 @@ vector <User> UserFile::loadUsersFromFile() {
         {
             xml.IntoElem();
             xml.FindElem("UserId");
-            //users[index] = atoi( MCD_2PCSZ(xml.GetData()) );
             user.setId(atoi( MCD_2PCSZ(xml.GetData()) ));
             xml.ResetMainPos();
 
             xml.FindElem("FirstName");
-            //MCD_STR firstName = xml.GetData();
             user.setFirstName(xml.GetData());
             xml.ResetMainPos();
 
             xml.FindElem("LastName");
-            //MCD_STR strSURNAME = xml.GetData();
             user.setLastName(xml.GetData());
             xml.ResetMainPos();
 
@@ -74,3 +72,34 @@ vector <User> UserFile::loadUsersFromFile() {
     }
     return users;
 }
+
+void UserFile::saveAllUsersToFile(vector <User> users) {
+    CMarkup xml;
+    bool fileExists;
+
+    fileExists = xml.Load( loadFilename() );
+
+    if (!fileExists) {
+        cout << "Failed to open xml format file and load data." << endl;
+    } else {
+        while (xml.FindElem()) {
+            xml.RemoveElem();
+        }
+        xml.ResetPos();
+        xml.AddElem("Users");
+        xml.IntoElem();
+        for (int i = 0; i < (int) users.size(); i++) {
+            xml.AddElem("User");
+            xml.IntoElem();
+            xml.AddElem("UserId", to_string(users[i].getId()));
+            xml.AddElem("FirstName", users[i].getFirstName());
+            xml.AddElem("LastName", users[i].getLastName());
+            xml.AddElem("Login", users[i].getLogin());
+            xml.AddElem("Password", users[i].getPassword());
+            xml.OutOfElem();
+        }
+    }
+    xml.Save( loadFilename() );
+}
+
+

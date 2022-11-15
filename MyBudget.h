@@ -28,6 +28,11 @@ public:
 //private:
     void registerUser();
     void logInUser();
+    void logOutUser();
+    void changeUserPassword();
+
+    void displayUserMenu();
+    void addIncome();
 };
 
 #endif // MYBUDGET_H

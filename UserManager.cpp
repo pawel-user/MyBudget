@@ -64,7 +64,7 @@ bool UserManager::ifUserExists(string name, string surname) {
 
             key = tolower(AuxilaryMethods::loadCharacter());
 
-            if (key == 'Y') {
+            if (key == 'y') {
                 return false;
             } else {
                 return true;
@@ -179,3 +179,30 @@ int UserManager::getLoggedUserId()
 {
     return loggedUserId;
 }
+
+void UserManager::logOutUser()
+{
+    loggedUserId = 0;
+    cout << "You have successfully logged out." << endl;
+}
+
+void UserManager::changeUserPassword()
+{
+    string newPassword = "";
+    do {
+        cout << "Enter a new password: ";
+        newPassword = AuxilaryMethods::loadLines();
+    } while ( !ifPasswordCorrect(newPassword) );
+
+    for (int i = 0; i < (int) users.size(); i++)
+    {
+        if (users[i].getId() == loggedUserId)
+        {
+            users[i].setPassword(newPassword);
+            cout << endl << "Password has been changed correctly." << endl;
+            system("pause");
+        }
+    }
+    userFile.saveAllUsersToFile(users);
+}
+
