@@ -7,6 +7,7 @@
 #include "XmlFile.h"
 #include "Income.h"
 #include "Markup.h"
+#include "DateGenerator.h"
 
 using namespace std;
 

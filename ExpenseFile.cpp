@@ -28,10 +28,9 @@ bool ExpenseFile::addExpenseToFile(Expense expense) {
     xml.IntoElem();
     xml.AddElem("ExpenseId", to_string(expense.getExpenseId()));
     xml.AddElem("UserId", to_string(expense.getUserId()));
-    xml.AddElem("ExpenseDate", to_string(expense.getExpenseDate()));
+    xml.AddElem("ExpenseDate", DateGenerator::convertIntToDate( expense.getExpenseDate() ));
     xml.AddElem("Item", expense.getItem());
     xml.AddElem("Amount", to_string(expense.getAmount()));
-
     xml.ResetPos();
 
     fileSaved = xml.Save( loadFilename() );
@@ -85,7 +84,7 @@ vector <Expense> ExpenseFile::loadUserExpenses(int loggedUserId) {
 
                 xml.FindElem("Date");
                 MCD_STR strDate = xml.GetData();
-                expense.setExpenseDate(stoi(strDate));
+                expense.setExpenseDate( DateGenerator::convertDateToInt(strDate) );
                 xml.ResetChildPos();
 
                 xml.FindElem("Item");

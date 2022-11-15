@@ -45,7 +45,7 @@ double AuxilaryMethods::loadNonNegativeFloatingPointNumber()
     while (true)
     {
         getline(cin, enter);
-        enter = replaceCommaWithDot(enter);
+        enter = formatCashAmount(enter);
 
         stringstream myStream(enter);
 
@@ -66,13 +66,13 @@ double AuxilaryMethods::roundToSpecifiedNumberOfDecimalPlaces(double number, int
     return number;
 }
 
-string AuxilaryMethods::replaceCommaWithDot(string text) {
-    for (int i = 0; i < (int) text.size(); i++) {
-        if (text[i] == ',') {
-            text[i] = '.';
+string AuxilaryMethods::formatCashAmount(string cashAmount) {
+    for (int i = 0; i < (int) cashAmount.size(); i++) {
+        if (cashAmount[i] == ',') {
+            cashAmount[i] = '.';
         }
     }
-    return text;
+    return cashAmount;
 }
 
 

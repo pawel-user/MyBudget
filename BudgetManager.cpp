@@ -53,8 +53,11 @@ Income BudgetManager::enterNewIncome() {
         cout << endl << "Current date is: " << date << endl;
     } else {
         do {
-            cout << endl << "Enter date in format (yyyy-mm-dd)," \
+            cout << endl << "Enter again date in format (yyyy-mm-dd)," \
                  "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+            do {
+                date = AuxilaryMethods::loadLines();
+            } while (!DateGenerator::checkFormatDate(date));
             date = AuxilaryMethods::loadLines();
             incomeDate = DateGenerator::convertDateToInt(date);
             income.setIncomeDate(incomeDate);
@@ -117,12 +120,15 @@ Expense BudgetManager::enterNewExpense() {
         cout << endl << "Current date is: " << date << endl;
     } else {
         do {
-            cout << endl << "Enter date in format (yyyy-mm-dd)," \
+            cout << endl << "Enter again date in format (yyyy-mm-dd)," \
                  "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
-            date = AuxilaryMethods::loadLines();
+            do {
+                date = AuxilaryMethods::loadLines();
+            } while (!DateGenerator::checkFormatDate(date));
             expenseDate = DateGenerator::convertDateToInt(date);
             expense.setExpenseDate(expenseDate);
         } while ( !DateGenerator::checkDate(date) );
+
     }
     cout << "Enter a type of expense: ";
     item = AuxilaryMethods::loadLines();
