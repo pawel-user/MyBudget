@@ -33,3 +33,7 @@ void MyBudget::displayUserMenu() {
 void MyBudget::addIncome() {
     budgetManager->addIncome();
 }
+
+void MyBudget::addExpense() {
+    budgetManager->addExpense();
+}

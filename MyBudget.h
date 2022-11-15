@@ -33,6 +33,7 @@ public:
 
     void displayUserMenu();
     void addIncome();
+    void addExpense();
 };
 
 #endif // MYBUDGET_H
