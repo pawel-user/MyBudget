@@ -58,15 +58,14 @@ Income BudgetManager::enterNewIncome() {
             do {
                 date = AuxilaryMethods::loadLines();
             } while (!DateGenerator::checkFormatDate(date));
-            date = AuxilaryMethods::loadLines();
             incomeDate = DateGenerator::convertDateToInt(date);
             income.setIncomeDate(incomeDate);
         } while ( !DateGenerator::checkDate(date) );
     }
-    cout << "Enter a type of income: ";
+    cout << endl << "Enter a type of income: ";
     item = AuxilaryMethods::loadLines();
     income.setItem(AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(item));
-    cout << "Enter amount of the income: ";
+    cout << endl << "Enter amount of the income: ";
     income.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
 
     cout << income.getUserId() << endl;
@@ -138,7 +137,7 @@ Expense BudgetManager::enterNewExpense() {
 
     cout << expense.getUserId() << endl;
     cout << expense.getExpenseId() << endl;
-    cout << expense.getExpenseDate() << endl;
+    cout << DateGenerator::convertIntToDate( expense.getExpenseDate() ) << endl;
     cout << expense.getItem() << endl;
     cout << expense.getAmount() << endl;
 
@@ -149,3 +148,65 @@ void BudgetManager::loadUserExpenses() {
     expenses = expenseFile.loadUserExpenses(LOGGED_USER_ID);
 }
 
+void BudgetManager::showIncomes() {
+    system("cls");
+    cout << "             >>> INCOMES <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    if (!incomes.empty()) {
+        for (int i = 0; i < (int) incomes.size(); i++) {
+            displayIncomeData(incomes[i]);
+            //cout << endl;
+        }
+    } else {
+        cout << endl << "The income list is empty." << endl << endl;
+    }
+    //system("pause");
+}
+
+void BudgetManager::displayIncomeData(Income income) {
+    cout << endl << "Income id:     " << income.getIncomeId()                               << endl;
+    cout << "Date:          " << DateGenerator::convertIntToDate(income.getIncomeDate())    << endl;
+    cout << "Item:          " << income.getItem()                                           << endl;
+    cout << "Amount:        " << fixed << setprecision(2) << income.getAmount()             << endl;
+}
+
+void BudgetManager::showExpenses() {
+    cout << endl << "             >>> EXPENSES <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+    if (!expenses.empty()) {
+        for (int i = 0; i < (int) expenses.size(); i++) {
+            displayExpenseData(expenses[i]);
+        }
+    } else {
+        if (!incomes.empty()) {
+            cout << endl;
+        }
+        cout << "The expense list is empty." << endl << endl;
+    }
+    system("pause");
+}
+
+void BudgetManager::displayExpenseData(Expense expense) {
+    cout << endl << "Expense id:    " << expense.getExpenseId()                             << endl;
+    cout << "Date:          " << DateGenerator::convertIntToDate(expense.getExpenseDate())  << endl;
+    cout << "Item:          " << expense.getItem()                                          << endl;
+    cout << "Amount:        " << fixed << setprecision(2) << expense.getAmount()            << endl;
+}
+
+void BudgetManager::showCashBalance() {
+    double sumIncomes = 0.0, sumExpenses = 0.0, totalCash = 0.0;
+
+    cout << endl << "             >>> CASH BALANCE <<<" << endl;
+    cout << "-----------------------------------------------" << endl;
+
+    for (int i = 0; i < (int) incomes.size(); i++) {
+        sumIncomes += incomes[i].getAmount();
+    }
+
+    for (int i = 0; i < (int) expenses.size(); i++) {
+        sumExpenses += expenses[i].getAmount();
+    }
+
+    totalCash = sumIncomes - sumExpenses;
+    cout << "THE CASH BALANCE IS: " << fixed << setprecision(2) << totalCash << endl << endl;
+}

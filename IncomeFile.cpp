@@ -81,9 +81,9 @@ vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
                 income.setIncomeId( DateGenerator::convertDateToInt(strIncomeId) );
                 xml.ResetChildPos();
 
-                xml.FindElem("Date");
+                xml.FindElem("IncomeDate");
                 MCD_STR strDate = xml.GetData();
-                income.setIncomeDate(stoi(strDate));
+                income.setIncomeDate( DateGenerator::convertDateToInt(strDate) );
                 xml.ResetChildPos();
 
                 xml.FindElem("Item");

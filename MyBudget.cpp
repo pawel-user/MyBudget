@@ -16,6 +16,7 @@ void MyBudget::registerUser() {
 
 void MyBudget::logInUser() {
     userManager.logInUser();
+    budgetManager = new BudgetManager(INCOME_FILENAME, EXPENSE_FILENAME, userManager.getLoggedUserId());
 }
 
 void MyBudget::changeUserPassword() {
@@ -36,4 +37,10 @@ void MyBudget::addIncome() {
 
 void MyBudget::addExpense() {
     budgetManager->addExpense();
+}
+
+void MyBudget::showCashSummary() {
+    budgetManager->showIncomes();
+    budgetManager->showExpenses();
+    budgetManager->showCashBalance();
 }

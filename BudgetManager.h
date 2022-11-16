@@ -23,6 +23,8 @@ private:
 
     Income enterNewIncome();
     Expense enterNewExpense();
+    void displayIncomeData(Income income);
+    void displayExpenseData(Expense expense);
 public:
     BudgetManager(string incomeFilename, string expenseFilename, int loggedUserId)
     : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFilename), expenseFile(expenseFilename) {
@@ -34,9 +36,13 @@ public:
 
     void addIncome();
     void loadUserIncomes();
+    void showIncomes();
 
     void addExpense();
     void loadUserExpenses();
+    void showExpenses();
+
+    void showCashBalance();
 };
 
 #endif // BUDGETMANAGER_H
