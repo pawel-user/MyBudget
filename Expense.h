@@ -22,6 +22,10 @@ public:
         this->amount = amount;
     };
 
+    bool operator < (const Expense& expense) const {
+        return (expenseDate < expense.expenseDate);
+    }
+
     void setExpenseId(int setExpenseId);
     void setUserId(int userId);
     void setExpenseDate(int expenseDate);
