@@ -152,6 +152,7 @@ void BudgetManager::showIncomes() {
     system("cls");
     cout << "             >>> INCOMES <<<" << endl;
     cout << "-----------------------------------------------" << endl;
+
     if (!incomes.empty()) {
         for (int i = 0; i < (int) incomes.size(); i++) {
             displayIncomeData(incomes[i]);
@@ -209,4 +210,9 @@ void BudgetManager::showCashBalance() {
 
     totalCash = sumIncomes - sumExpenses;
     cout << "THE CASH BALANCE IS: " << fixed << setprecision(2) << totalCash << endl << endl;
+}
+
+void BudgetManager::sortCashOperationsByDate() {
+    sort(incomes.begin(), incomes.end());
+    sort(expenses.begin(), expenses.end());
 }

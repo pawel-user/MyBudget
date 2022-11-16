@@ -10,6 +10,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -25,11 +26,13 @@ private:
     Expense enterNewExpense();
     void displayIncomeData(Income income);
     void displayExpenseData(Expense expense);
+    void sortCashOperationsByDate();
 public:
     BudgetManager(string incomeFilename, string expenseFilename, int loggedUserId)
     : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFilename), expenseFile(expenseFilename) {
         loadUserIncomes();
         loadUserExpenses();
+        sortCashOperationsByDate();
     };
 
     void displayUserMenu();

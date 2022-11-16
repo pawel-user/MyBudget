@@ -22,6 +22,10 @@ public:
         this->amount = amount;
     };
 
+    bool operator < (const Income& income) const {
+        return (incomeDate < income.incomeDate);
+    }
+
     void setIncomeId(int setIncomeId);
     void setUserId(int userId);
     void setIncomeDate(int incomeDate);
