@@ -82,15 +82,18 @@ bool DateGenerator::checkDate(string date) {
 
     for (int i = 0; i < (int) date.size(); i++) {
         if ((date[i] < '0' && date[i] != '-') || (date[i] > '9')) {
+            system("cls");
             cout << "Incorrect data entered. Try again." << endl;
             return false;
         }
     }
 
     if (dateGenerator.checkYear(date) && dateGenerator.checkMonth(date) && dateGenerator.checkDay(date)) {
-        cout << "The date given is correct." << endl;
+        cout << "The date given is correct." << endl << endl;
         return true;
     } else {
+        //system("pause");
+        system("cls");
         cout << "The date given is incorrect or out of range." << endl;
     }
 return false;
@@ -158,16 +161,39 @@ int DateGenerator::convertDateToInt(string date) {
 }
 
 string DateGenerator::convertIntToDate(int number) {
-    int year = 0, month = 0, day = 0;
+    string year = "", month = "", day = "", strNumber = "";
     string formatDate = "";
 
-    day = number % 100;
-    number /= 100;
-    month = number % 100;
-    number /= 100;
-    year = number;
+    strNumber = to_string(number);
+    int numberLength = (int) strNumber.size();
 
-    formatDate = to_string(year) + "-" + to_string(month) + "-" + to_string(day);
+    for (int i = 0; i < numberLength; i++) {
+        if (i == 4) {
+            year = formatDate;
+            formatDate = "";
+        } else if(i == 6) {
+            month = formatDate;
+            formatDate = "";
+        } else if(i == (numberLength - 1)) {
+            formatDate += strNumber[i];
+            day = formatDate;
+        }
+        formatDate += strNumber[i];
+    }
+    formatDate = "";
+    /*day = to_string(number % 100);
+    number /= 100;
+    month = to_string(number % 100);
+    number /= 100;
+    year = to_string(number);
+
+    if ((int) month.size() == 1) {
+        month = "0" + month;
+    }
+    if ((int) day.size() == 1) {
+        day = "0" + day;
+    }*/
+    formatDate = year + "-" + month + "-" + day;
     return formatDate;
 }
 
@@ -175,6 +201,7 @@ bool DateGenerator::checkFormatDate(string date)
 {
     for (int i = 0; i < (int) date.size(); i++) {
         if ( (date[i] < '0' && date[i] != '-') || date[i] > '9' ) {
+            system("cls");
             cout << endl << "Incorrect format date entered. Try again." << endl;
             cout << "Type only numbers and key \"-\" in correct format (yyyy-mm-dd)" << endl << endl;
             return false;

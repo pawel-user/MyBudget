@@ -82,7 +82,7 @@ vector <Expense> ExpenseFile::loadUserExpenses(int loggedUserId) {
                 expense.setExpenseId(stoi(strExpenseId));
                 xml.ResetChildPos();
 
-                xml.FindElem("Date");
+                xml.FindElem("ExpenseDate");
                 MCD_STR strDate = xml.GetData();
                 expense.setExpenseDate( DateGenerator::convertDateToInt(strDate) );
                 xml.ResetChildPos();
