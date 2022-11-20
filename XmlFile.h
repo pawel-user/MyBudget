@@ -12,7 +12,7 @@ class XmlFile {
 protected:
     const string FILENAME;
 public:
-    XmlFile(string fileName) : FILENAME(fileName){};
+    XmlFile(string fileName) : FILENAME(fileName) {};
     bool isFileEmpty();
 
     string loadFilename();

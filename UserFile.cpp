@@ -7,8 +7,7 @@ void UserFile::addUserToFile(User user) {
 
     fileExists = xml.Load( loadFilename() );
 
-    if (!fileExists)
-    {
+    if (!fileExists) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Users");
     }
@@ -38,14 +37,14 @@ vector <User> UserFile::loadUsersFromFile() {
 
     fileExists = xml.Load( loadFilename() );
 
-    if (!fileExists)
-    {
-        cout << "Failed to open xml format file and load data." << endl;
-    } else {
+    //if (!fileExists) {
+    //cout << "Failed to open xml format file and load data." << endl;
+    //cout << "File \"" << loadFilename() << "\" is empty or not exist." << endl;
+    //} else {
+    if (fileExists) {
         xml.FindElem();
         xml.IntoElem();
-        while (xml.FindElem("User"))
-        {
+        while (xml.FindElem("User")) {
             xml.IntoElem();
             xml.FindElem("UserId");
             user.setId(atoi( MCD_2PCSZ(xml.GetData()) ));
@@ -79,9 +78,10 @@ void UserFile::saveAllUsersToFile(vector <User> users) {
 
     fileExists = xml.Load( loadFilename() );
 
-    if (!fileExists) {
-        cout << "Failed to open xml format file and load data." << endl;
-    } else {
+    //if (!fileExists) {
+    //cout << "Failed to open xml format file and load data." << endl;
+    //} else {
+    if (fileExists) {
         while (xml.FindElem()) {
             xml.RemoveElem();
         }
@@ -101,5 +101,3 @@ void UserFile::saveAllUsersToFile(vector <User> users) {
     }
     xml.Save( loadFilename() );
 }
-
-

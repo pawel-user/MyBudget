@@ -1,49 +1,44 @@
 #include "AuxilaryMethods.h"
 
-string AuxilaryMethods::loadLines()
-{
+string AuxilaryMethods::loadLines() {
     string exit = "";
     getline(cin, exit);
     return exit;
 }
 
-char AuxilaryMethods::loadCharacter()
-{
+char AuxilaryMethods::loadCharacter() {
+    const string MESSAGE = "This is not a single character. Type again.";
     string enter = "";
     char character  = {0};
 
-    while (true)
-    {
+    while (true) {
         getline(cin, enter);
 
-        if (enter.length() == 1)
-        {
+        if (enter.length() == 1) {
             character = enter[0];
             break;
         }
-        cout << "This is not a single character. Type again." << endl;
+        writeAndClearText(MESSAGE);
+        cout << "Re-choice: ";
     }
     return character;
 }
 
-string AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(string text)
-{
-    if (!text.empty())
-    {
+string AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(string text) {
+    if (!text.empty()) {
         transform(text.begin(), text.end(), text.begin(), ::tolower);
         text[0] = toupper(text[0]);
     }
     return text;
 }
 
-double AuxilaryMethods::loadNonNegativeFloatingPointNumber()
-{
+double AuxilaryMethods::loadNonNegativeFloatingPointNumber() {
     string enter = "";
     double number = 0.0;
     const int NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP = 2;
+    const string MESSAGE = "This is not a non-negative floating-point number. Type again. ";
 
-    while (true)
-    {
+    while (true) {
         getline(cin, enter);
         enter = formatCashAmount(enter);
 
@@ -51,7 +46,7 @@ double AuxilaryMethods::loadNonNegativeFloatingPointNumber()
 
         if (myStream >> fixed >> setprecision(NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP) >> number)
             break;
-        cout << "This is not a non-negative floating-point number. Type again. " << endl;
+        writeAndClearText(MESSAGE);
     }
     number = roundToSpecifiedNumberOfDecimalPlaces(number, NUMBER_OF_DECIMAL_PLACES_TO_ROUND_UP);
 
@@ -75,50 +70,10 @@ string AuxilaryMethods::formatCashAmount(string cashAmount) {
     return cashAmount;
 }
 
-
-/*string MetodyPomocnicze::konwerjsaIntNaString(int liczba)
-{
-    ostringstream ss;
-    ss << liczba;
-    string str = ss.str();
-    return str;
-}
-
-int MetodyPomocnicze::konwersjaStringNaInt(string liczba)
-{
-    int liczbaInt;
-    istringstream iss(liczba);
-    iss >> liczbaInt;
-
-    return liczbaInt;
-}
-
-string MetodyPomocnicze::pobierzLiczbe(string tekst, int pozycjaZnaku)
-{
-    string liczba = "";
-    while(isdigit(tekst[pozycjaZnaku]) == true)
-    {
-        liczba += tekst[pozycjaZnaku];
-        pozycjaZnaku ++;
+void AuxilaryMethods::writeAndClearText(string text) {
+    cout << text;
+    Sleep(1000);
+    for (int i = 0; i < (int) text.size(); i++) {
+        cout << "\b \b";
     }
-    return liczba;
 }
-
-int MetodyPomocnicze::wczytajLiczbeCalkowita()
-{
-    string wejscie = "";
-    int liczba = 0;
-
-    while (true)
-    {
-        getline(cin, wejscie);
-
-        stringstream myStream(wejscie);
-        if (myStream >> liczba)
-            break;
-        cout << "To nie jest liczba. Wpisz ponownie. " << endl;
-    }
-    return liczba;
-}*/
-
-

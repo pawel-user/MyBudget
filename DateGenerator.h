@@ -9,8 +9,7 @@ using namespace std;
 
 struct MyDate;
 
-class DateGenerator
-{
+class DateGenerator {
 public:
     struct MyDate {
         string year;
@@ -22,8 +21,8 @@ public:
     bool checkYear(string date);
     bool checkMonth(string date);
     bool checkDay(string date);
-    bool checkIfYearIsLeap(int year);
-    int howManyDaysInMonth(int month, int year);
+    static bool checkIfYearIsLeap(int year);
+    static int howManyDaysInMonth(int month, int year);
     MyDate breakDateIntoComponents(string date);
 
 public:

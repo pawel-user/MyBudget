@@ -1,11 +1,35 @@
 #include "UserManager.h"
 
+bool UserManager::ifUserLoggedIn() {
+    if (loggedUserId > 0)
+        return true;
+    else
+        return false;
+}
+
+void UserManager::displayMainMenu() {
+    system("cls");
+    cout << "    >>> MAIN MENU <<<"         << endl;
+    cout << "---------------------------"   << endl;
+    cout << "1. Register"                   << endl;
+    cout << "2. LogIn"                      << endl;
+    cout << "---------------------------"   << endl;
+    cout << "9. Exit"                       << endl;
+    cout << "---------------------------"   << endl << endl;
+}
+
+char UserManager::chooseOptionFromMainMenu() {
+    char choice;
+    displayMainMenu();
+    cout << "Your choice: ";
+    choice = AuxilaryMethods::loadCharacter();
+    displayMainMenu();
+    return choice;
+}
+
 void UserManager::registerUser() {
-    //for (int i = 0; i < 2; i++) {
     User user = enterNewUserData();
-    //User user(1, "Rob", "Gryn", "rob", "Robman123");
     users.push_back(user);
-    //}
     userFile.addUserToFile(user);
 
     cout << "The account was created successfully." << endl << endl;
@@ -20,6 +44,9 @@ User UserManager::enterNewUserData() {
 
     string name = "", surname = "";
     do {
+        system("cls");
+        cout << "    >>> NEW USER REGISTRATION <<<"         << endl;
+        cout << "---------------------------------------"   << endl;
         cout << "Enter name: ";
         name = AuxilaryMethods::loadLines();
         name = AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(name);
@@ -65,8 +92,10 @@ bool UserManager::ifUserExists(string name, string surname) {
             key = tolower(AuxilaryMethods::loadCharacter());
 
             if (key == 'y') {
+                cout << endl;
                 return false;
             } else {
+                displayMainMenu();
                 return true;
             }
         }
@@ -95,7 +124,7 @@ bool UserManager::ifPasswordCorrect(string password) {
         cout << "Your password should be at least 5 characters long " << '\n' << "and has at least one uppercase letter. " << endl;
         cout << endl << "Try again..." << endl << endl;
         system("pause");
-        cout << endl;
+        system("cls");
         return false;
     }
 }
@@ -116,40 +145,40 @@ bool UserManager::ifPasswordHasUpperCaseLetter(string password) {
             return true;
         }
     }
-return false;
+    return false;
 }
 
 void UserManager::logInUser() {
     string login = "", password = "";
-
     cout << endl;
     do {
+        system("cls");
+        cout << "    >>> USER LOGGING <<<"        << endl;
+        cout << "-----------------------------"   << endl;
         cout << "Enter login: ";
         login = AuxilaryMethods::loadLines();
     } while (ifLoginCorrect(login) == false);
 
-    for (int i = 0; i < (int) users.size(); i++)
-    {
-        if (users[i].getLogin() == login)
-        {
+    for (int i = 0; i < (int) users.size(); i++) {
+        if (users[i].getLogin() == login) {
             cout << endl;
-            for (int numberOfAttempts = 3; numberOfAttempts > 0; numberOfAttempts--)
-            {
+            for (int numberOfAttempts = 3; numberOfAttempts > 0; numberOfAttempts--) {
+                //displayMainMenu();
                 cout << "Enter password. Remaining trails: " << numberOfAttempts << ": ";
                 password = AuxilaryMethods::loadLines();
 
-                    if (users[i].getPassword() == password)
-                    {
-                        loggedUserId = users[i].getId();
-                        cout << endl << "You have successfully logged in." << endl << endl;
-                        system("pause");
-                        return;
-                    } else {
-                        cout << "Password is incorrect." << endl << endl;
-                        system("pause");
-                        system("cls");
-                    }
+                if (users[i].getPassword() == password) {
+                    loggedUserId = users[i].getId();
+                    cout << endl << "You have successfully logged in." << endl << endl;
+                    system("pause");
+                    return;
+                } else {
+                    cout << "Password is incorrect." << endl << endl;
+                    system("pause");
+
+                }
             }
+            displayMainMenu();
             cout << "You entered the wrong password three times." << endl << endl;
             system("pause");
             return;
@@ -165,39 +194,35 @@ bool UserManager::ifLoginCorrect(string login) {
     }
     cout << endl << "There is no such user." << endl;
     system("pause");
-    system("cls");
     return false;
 }
 
-void UserManager::setLoggedUserId(int newLoggedUserId)
-{
+void UserManager::setLoggedUserId(int newLoggedUserId) {
     if(newLoggedUserId >= 0)
         loggedUserId = newLoggedUserId;
 }
 
-int UserManager::getLoggedUserId()
-{
+int UserManager::getLoggedUserId() {
     return loggedUserId;
 }
 
-void UserManager::logOutUser()
-{
+void UserManager::logOutUser() {
     loggedUserId = 0;
     cout << "You have successfully logged out." << endl;
 }
 
-void UserManager::changeUserPassword()
-{
+void UserManager::changeUserPassword() {
     string newPassword = "";
     do {
-        cout << "Enter a new password: ";
+        system("cls");
+        cout << "    >>> CHANGING USER PASSWORD <<<"        << endl;
+        cout << "---------------------------------------"   << endl;
+        cout << endl << "Enter a new password: ";
         newPassword = AuxilaryMethods::loadLines();
     } while ( !ifPasswordCorrect(newPassword) );
 
-    for (int i = 0; i < (int) users.size(); i++)
-    {
-        if (users[i].getId() == loggedUserId)
-        {
+    for (int i = 0; i < (int) users.size(); i++) {
+        if (users[i].getId() == loggedUserId) {
             users[i].setPassword(newPassword);
             cout << endl << "Password has been changed correctly." << endl;
             system("pause");
@@ -205,4 +230,3 @@ void UserManager::changeUserPassword()
     }
     userFile.saveAllUsersToFile(users);
 }
-
