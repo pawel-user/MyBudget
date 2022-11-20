@@ -29,12 +29,14 @@ char UserManager::chooseOptionFromMainMenu() {
 
 void UserManager::registerUser() {
     User user = enterNewUserData();
-    users.push_back(user);
-    userFile.addUserToFile(user);
+    if (user.getId() != 0) {
+        users.push_back(user);
+        userFile.addUserToFile(user);
 
-    cout << "The account was created successfully." << endl << endl;
-    system("pause");
-    cin.sync();
+        cout << "The account was created successfully." << endl << endl;
+        system("pause");
+        cin.sync();
+    }
 }
 
 User UserManager::enterNewUserData() {
@@ -43,19 +45,25 @@ User UserManager::enterNewUserData() {
     user.setId(downloadNewUserId());
 
     string name = "", surname = "";
-    do {
+
+    system("cls");
+    cout << "    >>> NEW USER REGISTRATION <<<"         << endl;
+    cout << "---------------------------------------"   << endl;
+    cout << "Enter name: ";
+    name = AuxilaryMethods::loadLines();
+    name = AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(name);
+    user.setFirstName(name);
+    cout << "Enter surname: ";
+    surname = AuxilaryMethods::loadLines();
+    surname = AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(surname);
+    user.setLastName(surname);
+    if (ifUserExists(user.getFirstName(), user.getLastName()) == true) {
+        cout << endl << "New user registration cancelled." << endl;
+        user.setId(0);
+        Sleep(1500);
         system("cls");
-        cout << "    >>> NEW USER REGISTRATION <<<"         << endl;
-        cout << "---------------------------------------"   << endl;
-        cout << "Enter name: ";
-        name = AuxilaryMethods::loadLines();
-        name = AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(name);
-        user.setFirstName(name);
-        cout << "Enter surname: ";
-        surname = AuxilaryMethods::loadLines();
-        surname = AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(surname);
-        user.setLastName(surname);
-    } while (ifUserExists(user.getFirstName(), user.getLastName()) == true);
+        return user;
+    }
 
     string login;
     cout << "Enter login: ";
@@ -95,7 +103,6 @@ bool UserManager::ifUserExists(string name, string surname) {
                 cout << endl;
                 return false;
             } else {
-                displayMainMenu();
                 return true;
             }
         }

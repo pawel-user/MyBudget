@@ -140,12 +140,6 @@ Expense BudgetManager::enterNewExpense() {
     cout << "Enter amount of the expense: ";
     expense.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
 
-    /*cout << expense.getUserId() << endl;
-    cout << expense.getExpenseId() << endl;
-    cout << DateGenerator::convertIntToDate( expense.getExpenseDate() ) << endl;
-    cout << expense.getItem() << endl;
-    cout << fixed << setprecision(2) << expense.getAmount() << endl;*/
-
     return expense;
 }
 
@@ -154,6 +148,7 @@ void BudgetManager::loadUserExpenses() {
 }
 
 void BudgetManager::showIncomes(int lowerDate, int upperDate) {
+    bool noEntries = true;
     system("cls");
     cout << "             >>> INCOMES <<<" << endl;
     cout << "---------------------------------------------------" << endl;
@@ -162,10 +157,14 @@ void BudgetManager::showIncomes(int lowerDate, int upperDate) {
         for (int i = 0; i < (int) incomes.size(); i++) {
             if ( (incomes[i].getIncomeDate() >= lowerDate) && (incomes[i].getIncomeDate() <= upperDate) ) {
                 displayIncomeData(incomes[i]);
+                noEntries = false;
             }
         }
+        if (noEntries) {
+            cout << "Lack of expenses in selected period of time." << endl << endl;
+        }
     } else {
-        cout << endl << "The income list is empty." << endl << endl;
+        cout << "The income list is empty." << endl << endl;
     }
 }
 
@@ -177,6 +176,8 @@ void BudgetManager::displayIncomeData(Income income) {
 }
 
 void BudgetManager::showExpenses(int lowerDate, int upperDate) {
+    bool noEntries = true;
+
     cout << endl << "             >>> EXPENSES <<<" << endl;
     cout << "---------------------------------------------------" << endl;
 
@@ -184,7 +185,11 @@ void BudgetManager::showExpenses(int lowerDate, int upperDate) {
         for (int i = 0; i < (int) expenses.size(); i++) {
             if ( (expenses[i].getExpenseDate() >= lowerDate) && (expenses[i].getExpenseDate() <= upperDate) ) {
                 displayExpenseData(expenses[i]);
+                noEntries = false;
             }
+        }
+        if (noEntries) {
+            cout << "Lack of expenses in selected period of time." << endl << endl;
         }
     } else {
         cout << "The expense list is empty." << endl << endl;
@@ -206,14 +211,14 @@ void BudgetManager::showCashBalance(int lowerDate, int upperDate) {
             sumIncomes += incomes[i].getAmount();
     }
 
-    cout << "Sum of incomes: " << right << setw(15) << sumIncomes << endl;
+    cout << "Sum of incomes: " << right << setw(15) <<  fixed << setprecision(2) << sumIncomes << endl;
 
     for (int i = 0; i < (int) expenses.size(); i++) {
         if ((expenses[i].getExpenseDate() >= lowerDate) && (expenses[i].getExpenseDate() <= upperDate))
             sumExpenses += expenses[i].getAmount();
     }
 
-    cout << "Sum of expenses: " << right << setw(7) << "-" << sumExpenses << endl;
+    cout << "Sum of expenses: " << right << setw(7) << "-" << fixed << setprecision(2) << sumExpenses << endl;
 
     totalCash = sumIncomes - sumExpenses;
     cout << endl << "THE CASH BALANCE IS:" << right << setw(11) << fixed << setprecision(2) << totalCash << endl << endl;
