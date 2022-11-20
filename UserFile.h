@@ -12,7 +12,6 @@
 using namespace std;
 
 class UserFile : public XmlFile {
-//private:
 
 public:
     UserFile(string userFilename) : XmlFile(userFilename) {};

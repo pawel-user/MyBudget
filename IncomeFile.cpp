@@ -16,8 +16,7 @@ bool IncomeFile::addIncomeToFile(Income income) {
 
     fileExists = xml.Load( loadFilename() );
 
-    if (!fileExists)
-    {
+    if (!fileExists) {
         xml.SetDoc("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         xml.AddElem("Incomes");
     }
@@ -51,22 +50,15 @@ vector <Income> IncomeFile::loadUserIncomes(int loggedUserId) {
     int userId = 0;
     string fileName = loadFilename();
 
-    //xml.Load(fileName);
-
     fileExists = xml.Load(fileName);
 
-    if ( !fileExists ) {
-        cout << "Failed to open xml format file \"" << fileName << "\" and load data." << endl;
-
-        if ( isFileEmpty() )
+    if ( isFileEmpty() )
         cout << "File \"" << fileName << "\" is empty. No data on file." << endl << endl;
 
-    } else {
-        cout << "File \"" << fileName << "\" uploaded successfully." << endl << endl;
+    if (fileExists) {
         xml.FindElem();
         xml.IntoElem();
-        while (xml.FindElem("Income"))
-        {
+        while (xml.FindElem("Income")) {
             xml.IntoElem();
             xml.FindElem("UserId");
             MCD_STR strUserId = xml.GetData();

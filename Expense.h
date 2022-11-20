@@ -5,8 +5,7 @@
 
 using namespace std;
 
-class Expense
-{
+class Expense {
     int expenseId;
     int userId;
     int expenseDate;

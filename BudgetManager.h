@@ -26,26 +26,28 @@ private:
     Expense enterNewExpense();
     void displayIncomeData(Income income);
     void displayExpenseData(Expense expense);
-    void sortCashOperationsByDate();
+
 public:
     BudgetManager(string incomeFilename, string expenseFilename, int loggedUserId)
-    : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFilename), expenseFile(expenseFilename) {
+        : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFilename), expenseFile(expenseFilename) {
         loadUserIncomes();
         loadUserExpenses();
-        sortCashOperationsByDate();
-    };
+        //sortCashOperationsByDate();
+     };
 
     void displayUserMenu();
+    char chooseOptionFromUserMenu();
+    void sortCashOperationsByDate();
 
     void addIncome();
     void loadUserIncomes();
-    void showIncomes();
+    void showIncomes(int lowerDate, int upperDate);
 
     void addExpense();
     void loadUserExpenses();
-    void showExpenses();
+    void showExpenses(int lowerDate, int upperDate);
 
-    void showCashBalance();
+    void showCashBalance(int lowerDate, int upperDate);
 };
 
 #endif // BUDGETMANAGER_H

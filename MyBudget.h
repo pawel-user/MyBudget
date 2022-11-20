@@ -15,7 +15,7 @@ class MyBudget {
     const string EXPENSE_FILENAME;
 public:
     MyBudget(string userFilename, string incomeFilename, string expenseFilename)
-    : userManager(userFilename), INCOME_FILENAME(incomeFilename), EXPENSE_FILENAME(expenseFilename) {
+        : userManager(userFilename), INCOME_FILENAME(incomeFilename), EXPENSE_FILENAME(expenseFilename) {
         budgetManager = NULL;
     };
     ~MyBudget() {
@@ -23,8 +23,12 @@ public:
         budgetManager = NULL;
     };
 
+    bool ifUserLoggedIn();
+    char chooseOptionFromMainMenu();
+    char chooseOptionFromUserMenu();
+    void displayMessageNoOption();
+
     void displayMainMenu();
-//private:
     void registerUser();
     void logInUser();
     void logOutUser();
@@ -33,7 +37,9 @@ public:
     void displayUserMenu();
     void addIncome();
     void addExpense();
-    void showCashSummary();
+    void showCashSummaryForCurrentMonth();
+    void showCashSummaryForPreviousMonth();
+    void showCashSummaryForSelectedPeriod();
 };
 
 #endif // MYBUDGET_H

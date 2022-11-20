@@ -1,4 +1,5 @@
 #include "DateGenerator.h"
+#include "MyBudget.h"
 
 string DateGenerator::downloadCurrentDate() {
     SYSTEMTIME st;
@@ -8,6 +9,7 @@ string DateGenerator::downloadCurrentDate() {
     string currentMonth = "00";
     string currentDay = "00";
     const int LAST_SINGLE_DIGIT = 9;
+
 
     currentYear = to_string(st.wYear);
 
@@ -22,10 +24,9 @@ string DateGenerator::downloadCurrentDate() {
     } else {
         currentDay = "0" + to_string(st.wDay);
     }
-
     currentDate = currentYear + "-" + currentMonth + "-" + currentDay;
-    cout << "TEST: " << currentDate << endl;
-return currentDate;
+
+    return currentDate;
 }
 
 bool DateGenerator::checkYear(string date) {
@@ -79,24 +80,25 @@ bool DateGenerator::checkDay(string date) {
 
 bool DateGenerator::checkDate(string date) {
     DateGenerator dateGenerator;
+    BudgetManager *manager = NULL;
 
     for (int i = 0; i < (int) date.size(); i++) {
         if ((date[i] < '0' && date[i] != '-') || (date[i] > '9')) {
             system("cls");
+            manager->displayUserMenu();
             cout << "Incorrect data entered. Try again." << endl;
             return false;
         }
     }
 
     if (dateGenerator.checkYear(date) && dateGenerator.checkMonth(date) && dateGenerator.checkDay(date)) {
-        cout << "The date given is correct." << endl << endl;
         return true;
     } else {
-        //system("pause");
         system("cls");
+        manager->displayUserMenu();
         cout << "The date given is incorrect or out of range." << endl;
     }
-return false;
+    return false;
 }
 
 bool DateGenerator::checkIfYearIsLeap(int year) {
@@ -111,15 +113,13 @@ int DateGenerator::howManyDaysInMonth(int month, int year) {
 
     if ((month == 4) || (month == 6) || (month == 9) || (month == 11)) {
         numberDaysInMonth = 30;
-    }
-    else if(month == 2) {
+    } else if(month == 2) {
         if(checkIfYearIsLeap(year)) {
             numberDaysInMonth = 29;
         } else {
             numberDaysInMonth = 28;
         }
-    }
-    else {
+    } else {
         numberDaysInMonth = 31;
     }
 
@@ -143,7 +143,7 @@ DateGenerator::MyDate DateGenerator::breakDateIntoComponents(string date) {
             numberOfHyphenFound++;
         }
     }
-return myDate;
+    return myDate;
 }
 
 int DateGenerator::convertDateToInt(string date) {
@@ -181,31 +181,40 @@ string DateGenerator::convertIntToDate(int number) {
         formatDate += strNumber[i];
     }
     formatDate = "";
-    /*day = to_string(number % 100);
-    number /= 100;
-    month = to_string(number % 100);
-    number /= 100;
-    year = to_string(number);
-
-    if ((int) month.size() == 1) {
-        month = "0" + month;
-    }
-    if ((int) day.size() == 1) {
-        day = "0" + day;
-    }*/
     formatDate = year + "-" + month + "-" + day;
     return formatDate;
 }
 
-bool DateGenerator::checkFormatDate(string date)
-{
-    for (int i = 0; i < (int) date.size(); i++) {
-        if ( (date[i] < '0' && date[i] != '-') || date[i] > '9' ) {
-            system("cls");
-            cout << endl << "Incorrect format date entered. Try again." << endl;
-            cout << "Type only numbers and key \"-\" in correct format (yyyy-mm-dd)" << endl << endl;
-            return false;
+bool DateGenerator::checkFormatDate(string date) {
+    BudgetManager *manager = NULL;
+    bool correctFormatDate = true;
+    const int DATE_LENGTH_IN_GIVEN_FORMAT = 10;
+    int numberOccurrencesOfHyphen = 0;
+    int dateLength = (int) date.size();
+
+    if (dateLength != DATE_LENGTH_IN_GIVEN_FORMAT) {
+        correctFormatDate = false;
+    } else {
+        for (int i = 0; i < dateLength; i++) {
+            if ( (date[i] < '0' && date[i] != '-') || date[i] > '9' ) {
+                correctFormatDate = false;
+                break;
+            } else if (date[i] == '-') {
+                numberOccurrencesOfHyphen++;
+            }
+        }
+        if (numberOccurrencesOfHyphen != 2) {
+            correctFormatDate = false;
         }
     }
+
+    if (!correctFormatDate) {
+        system("cls");
+        manager->displayUserMenu();
+        cout << "Incorrect format date entered. Try again." << endl;
+        cout << "Type only numbers and key \"-\" in correct format (yyyy-mm-dd)" << endl << endl;
+        return false;
+    }
+
     return true;
 }

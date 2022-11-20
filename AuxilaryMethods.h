@@ -6,22 +6,20 @@
 #include <algorithm>
 #include <iomanip>
 #include <math.h>
+#include <windows.h>
+#include <conio.h>
 
 using namespace std;
 
-class AuxilaryMethods
-{
+class AuxilaryMethods {
 public:
-    //static string konwersjaIntNaString(int liczba);
-    //static int konwersjaStringNaInt(string liczba);
     static string loadLines();
-    //static string pobierzLiczbe(string tekst, int pozycjaZnaku);
     static char loadCharacter();
     static string changeTheFirstLetterToUppercaseAndTheOthersToLowercase(string text);
     static double loadNonNegativeFloatingPointNumber();
     static string formatCashAmount(string cashAmount);
     static double roundToSpecifiedNumberOfDecimalPlaces(double number, int decimalPlaces);
-    //static int wczytajLiczbeCalkowita();
+    static void writeAndClearText(string text);
 };
 
 #endif //AUXILARYMETHODS_H

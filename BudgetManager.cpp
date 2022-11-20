@@ -15,8 +15,14 @@ void BudgetManager::displayUserMenu() {
     cout << "-------------------------------------" << endl << endl;
 }
 
-void BudgetManager::addIncome() {
+char BudgetManager::chooseOptionFromUserMenu() {
+    char choice;
+    cout << "Your choice: ";
+    choice = AuxilaryMethods::loadCharacter();
+    return choice;
+}
 
+void BudgetManager::addIncome() {
     Income income;
 
     system("cls");
@@ -62,17 +68,17 @@ Income BudgetManager::enterNewIncome() {
             income.setIncomeDate(incomeDate);
         } while ( !DateGenerator::checkDate(date) );
     }
-    cout << endl << "Enter a type of income: ";
+    cout << "Enter a type of income: ";
     item = AuxilaryMethods::loadLines();
     income.setItem(AuxilaryMethods::changeTheFirstLetterToUppercaseAndTheOthersToLowercase(item));
-    cout << endl << "Enter amount of the income: ";
+    cout << "Enter amount of the income: ";
     income.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
 
-    cout << income.getUserId() << endl;
+    /*cout << income.getUserId() << endl;
     cout << income.getIncomeId() << endl;
-    cout << income.getIncomeDate() << endl;
+    cout << DateGenerator::convertIntToDate(income.getIncomeDate()) << endl;
     cout << income.getItem() << endl;
-    cout << income.getAmount() << endl;
+    cout << fixed << setprecision(2) << income.getAmount() << endl;*/
 
     return income;
 }
@@ -82,7 +88,6 @@ void BudgetManager::loadUserIncomes() {
 }
 
 void BudgetManager::addExpense() {
-
     Expense expense;
 
     system("cls");
@@ -119,8 +124,8 @@ Expense BudgetManager::enterNewExpense() {
         cout << endl << "Current date is: " << date << endl;
     } else {
         do {
-            cout << endl << "Enter again date in format (yyyy-mm-dd)," \
-                 "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+            cout << endl << "Enter again date in format (yyyy-mm-dd),";
+            cout << "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
             do {
                 date = AuxilaryMethods::loadLines();
             } while (!DateGenerator::checkFormatDate(date));
@@ -135,11 +140,11 @@ Expense BudgetManager::enterNewExpense() {
     cout << "Enter amount of the expense: ";
     expense.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
 
-    cout << expense.getUserId() << endl;
+    /*cout << expense.getUserId() << endl;
     cout << expense.getExpenseId() << endl;
     cout << DateGenerator::convertIntToDate( expense.getExpenseDate() ) << endl;
     cout << expense.getItem() << endl;
-    cout << expense.getAmount() << endl;
+    cout << fixed << setprecision(2) << expense.getAmount() << endl;*/
 
     return expense;
 }
@@ -148,20 +153,20 @@ void BudgetManager::loadUserExpenses() {
     expenses = expenseFile.loadUserExpenses(LOGGED_USER_ID);
 }
 
-void BudgetManager::showIncomes() {
+void BudgetManager::showIncomes(int lowerDate, int upperDate) {
     system("cls");
     cout << "             >>> INCOMES <<<" << endl;
-    cout << "-----------------------------------------------" << endl;
+    cout << "---------------------------------------------------" << endl;
 
     if (!incomes.empty()) {
         for (int i = 0; i < (int) incomes.size(); i++) {
-            displayIncomeData(incomes[i]);
-            //cout << endl;
+            if ( (incomes[i].getIncomeDate() >= lowerDate) && (incomes[i].getIncomeDate() <= upperDate) ) {
+                displayIncomeData(incomes[i]);
+            }
         }
     } else {
         cout << endl << "The income list is empty." << endl << endl;
     }
-    //system("pause");
 }
 
 void BudgetManager::displayIncomeData(Income income) {
@@ -171,20 +176,19 @@ void BudgetManager::displayIncomeData(Income income) {
     cout << "Amount:        " << fixed << setprecision(2) << income.getAmount()             << endl;
 }
 
-void BudgetManager::showExpenses() {
+void BudgetManager::showExpenses(int lowerDate, int upperDate) {
     cout << endl << "             >>> EXPENSES <<<" << endl;
-    cout << "-----------------------------------------------" << endl;
+    cout << "---------------------------------------------------" << endl;
+
     if (!expenses.empty()) {
         for (int i = 0; i < (int) expenses.size(); i++) {
-            displayExpenseData(expenses[i]);
+            if ( (expenses[i].getExpenseDate() >= lowerDate) && (expenses[i].getExpenseDate() <= upperDate) ) {
+                displayExpenseData(expenses[i]);
+            }
         }
     } else {
-        if (!incomes.empty()) {
-            cout << endl;
-        }
         cout << "The expense list is empty." << endl << endl;
     }
-    system("pause");
 }
 
 void BudgetManager::displayExpenseData(Expense expense) {
@@ -194,22 +198,26 @@ void BudgetManager::displayExpenseData(Expense expense) {
     cout << "Amount:        " << fixed << setprecision(2) << expense.getAmount()            << endl;
 }
 
-void BudgetManager::showCashBalance() {
+void BudgetManager::showCashBalance(int lowerDate, int upperDate) {
     double sumIncomes = 0.0, sumExpenses = 0.0, totalCash = 0.0;
 
-    cout << endl << "             >>> CASH BALANCE <<<" << endl;
-    cout << "-----------------------------------------------" << endl;
-
     for (int i = 0; i < (int) incomes.size(); i++) {
-        sumIncomes += incomes[i].getAmount();
+        if ((incomes[i].getIncomeDate() >= lowerDate) && (incomes[i].getIncomeDate() <= upperDate))
+            sumIncomes += incomes[i].getAmount();
     }
+
+    cout << "Sum of incomes: " << right << setw(15) << sumIncomes << endl;
 
     for (int i = 0; i < (int) expenses.size(); i++) {
-        sumExpenses += expenses[i].getAmount();
+        if ((expenses[i].getExpenseDate() >= lowerDate) && (expenses[i].getExpenseDate() <= upperDate))
+            sumExpenses += expenses[i].getAmount();
     }
 
+    cout << "Sum of expenses: " << right << setw(7) << "-" << sumExpenses << endl;
+
     totalCash = sumIncomes - sumExpenses;
-    cout << "THE CASH BALANCE IS: " << fixed << setprecision(2) << totalCash << endl << endl;
+    cout << endl << "THE CASH BALANCE IS:" << right << setw(11) << fixed << setprecision(2) << totalCash << endl << endl;
+    system("pause");
 }
 
 void BudgetManager::sortCashOperationsByDate() {

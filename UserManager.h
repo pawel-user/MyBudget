@@ -25,10 +25,14 @@ class UserManager {
     bool ifPasswordHasUpperCaseLetter(string password);
 public:
     UserManager(string userFilename)
-    : userFile(userFilename) {
+        : userFile(userFilename) {
         loggedUserId = 0;
         users = userFile.loadUsersFromFile();
     };
+    bool ifUserLoggedIn();
+    char chooseOptionFromMainMenu();
+    void displayMainMenu();
+
     void registerUser();
     void logInUser();
     void logOutUser();
@@ -36,7 +40,6 @@ public:
 
     int getLoggedUserId();
     void setLoggedUserId(int newLoggedUserId);
-    friend int _main();
 };
 
 #endif // USERMANAGER_H

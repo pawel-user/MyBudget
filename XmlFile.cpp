@@ -1,7 +1,6 @@
 #include "XmlFile.h"
 
-string XmlFile::loadFilename()
-{
+string XmlFile::loadFilename() {
     return FILENAME;
 }
 
@@ -21,6 +20,6 @@ bool XmlFile::isFileEmpty() {
                 return true;
             }
         }
-    return false;
+        return false;
     }
 }
