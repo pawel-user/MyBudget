@@ -74,12 +74,6 @@ Income BudgetManager::enterNewIncome() {
     cout << "Enter amount of the income: ";
     income.setAmount(AuxilaryMethods::loadNonNegativeFloatingPointNumber());
 
-    /*cout << income.getUserId() << endl;
-    cout << income.getIncomeId() << endl;
-    cout << DateGenerator::convertIntToDate(income.getIncomeDate()) << endl;
-    cout << income.getItem() << endl;
-    cout << fixed << setprecision(2) << income.getAmount() << endl;*/
-
     return income;
 }
 

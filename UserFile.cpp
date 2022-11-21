@@ -37,10 +37,6 @@ vector <User> UserFile::loadUsersFromFile() {
 
     fileExists = xml.Load( loadFilename() );
 
-    //if (!fileExists) {
-    //cout << "Failed to open xml format file and load data." << endl;
-    //cout << "File \"" << loadFilename() << "\" is empty or not exist." << endl;
-    //} else {
     if (fileExists) {
         xml.FindElem();
         xml.IntoElem();
@@ -78,9 +74,6 @@ void UserFile::saveAllUsersToFile(vector <User> users) {
 
     fileExists = xml.Load( loadFilename() );
 
-    //if (!fileExists) {
-    //cout << "Failed to open xml format file and load data." << endl;
-    //} else {
     if (fileExists) {
         while (xml.FindElem()) {
             xml.RemoveElem();
