@@ -84,9 +84,8 @@ bool DateGenerator::checkDate(string date) {
 
     for (int i = 0; i < (int) date.size(); i++) {
         if ((date[i] < '0' && date[i] != '-') || (date[i] > '9')) {
-            system("cls");
-            manager->displayUserMenu();
-            cout << "Incorrect data entered. Try again." << endl;
+            cout << endl << "Incorrect data entered. Try again." << endl;
+            system("pause");
             return false;
         }
     }
@@ -94,9 +93,8 @@ bool DateGenerator::checkDate(string date) {
     if (dateGenerator.checkYear(date) && dateGenerator.checkMonth(date) && dateGenerator.checkDay(date)) {
         return true;
     } else {
-        system("cls");
-        manager->displayUserMenu();
-        cout << "The date given is incorrect or out of range." << endl;
+        cout << endl << "The date given is incorrect or out of range." << endl << endl;
+        system("pause");
     }
     return false;
 }
@@ -209,12 +207,10 @@ bool DateGenerator::checkFormatDate(string date) {
     }
 
     if (!correctFormatDate) {
-        system("cls");
-        manager->displayUserMenu();
-        cout << "Incorrect format date entered. Try again." << endl;
+        cout << endl << "Incorrect format date entered. Try again." << endl;
         cout << "Type only numbers and key \"-\" in correct format (yyyy-mm-dd)" << endl << endl;
+        system("pause");
         return false;
     }
-
     return true;
 }

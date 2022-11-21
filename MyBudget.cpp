@@ -78,7 +78,7 @@ void MyBudget::showCashSummaryForCurrentMonth() {
     budgetManager->showIncomes(lowerDate, upperDate);
     budgetManager->showExpenses(lowerDate, upperDate);
 
-    cout << endl << "       >>> CASH SUMMARY FOR CURRENT MONTH <<<" << endl;
+    cout << endl << "   >>>    CASH SUMMARY FOR CURRENT MONTH    <<<" << endl;
     cout << "---------------------------------------------------" << endl;
 
     budgetManager->showCashBalance(lowerDate, upperDate);
@@ -119,7 +119,7 @@ void MyBudget::showCashSummaryForPreviousMonth() {
     budgetManager->showIncomes(lowerDate, upperDate);
     budgetManager->showExpenses(lowerDate, upperDate);
 
-    cout << endl << ">>>        CASH SUMMARY FOR PREVIOUS MONTH <<<" << endl;
+    cout << endl << "   >>>    CASH SUMMARY FOR PREVIOUS MONTH    <<<" << endl;
     cout << "---------------------------------------------------" << endl;
 
     budgetManager->showCashBalance(lowerDate, upperDate);
@@ -129,13 +129,28 @@ void MyBudget::showCashSummaryForSelectedPeriod() {
     string givenDate = "";
     int lowerDate = 0;
     int upperDate = 0;
+    int numberOfRepetitions = 0;
 
+    system("cls");
+    cout << ">>>    CASH SUMMARY    <<<" << endl;
+    cout << endl << "Enter the lower date in format (yyyy-mm-dd) from which I should show the cash balance: ";
     do {
-        cout << endl << "Enter the lower date in format (yyyy-mm-dd) from which I should show the cash balance: ";
+        if (numberOfRepetitions > 0) {
+            system("cls");
+            cout << ">>>    CASH SUMMARY    <<<" << endl;
+            cout << endl << "Enter the lower date in format (yyyy-mm-dd) from which I should show the cash balance: ";
+        }
         do {
+            if (numberOfRepetitions > 0) {
+                system("cls");
+                cout << ">>>    CASH SUMMARY    <<<" << endl;
+                cout << endl << "Enter the lower date in format (yyyy-mm-dd) from which I should show the cash balance: ";
+            }
             givenDate = AuxilaryMethods::loadLines();
+            numberOfRepetitions++;
         } while (!DateGenerator::checkFormatDate(givenDate));
         lowerDate = DateGenerator::convertDateToInt(givenDate);
+        numberOfRepetitions++;
     } while ( !DateGenerator::checkDate(givenDate) );
 
     givenDate = "";

@@ -34,12 +34,17 @@ int main() {
                 if (myBudget.ifUserLoggedIn()) {
                     myBudget.addIncome();
                 } else {
-                    cout << "In order to add a recipient, you must first log in." << endl;
+                    cout << "In order to add an income, you must first log in." << endl;
                     system("pause");
                 }
                 break;
             case '2':
-                myBudget.addExpense();
+                if (myBudget.ifUserLoggedIn()) {
+                    myBudget.addExpense();
+                } else {
+                    cout << "In order to add an expense, you must first log in." << endl;
+                    system("pause");
+                }
                 break;
             case '3':
                 myBudget.showCashSummaryForCurrentMonth();

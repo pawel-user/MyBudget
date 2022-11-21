@@ -184,7 +184,9 @@ void UserManager::logInUser() {
 
                 }
             }
-            displayMainMenu();
+            system("cls");
+            cout << "    >>> USER LOGGING <<<"        << endl;
+            cout << "-----------------------------"   << endl;
             cout << "You entered the wrong password three times." << endl << endl;
             system("pause");
             return;
