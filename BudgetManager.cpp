@@ -42,6 +42,7 @@ Income BudgetManager::enterNewIncome() {
     Income income;
     string date = "", item = "";
     int incomeDate = 0;
+    int numberOfRepetitions = 0;
 
     income.setIncomeId(incomeFile.getLastIncomeId() + 1);
     income.setUserId(LOGGED_USER_ID);
@@ -58,14 +59,28 @@ Income BudgetManager::enterNewIncome() {
         income.setIncomeDate(incomeDate);
         cout << endl << "Current date is: " << date << endl;
     } else {
+        cout << endl << "Enter again date in format (yyyy-mm-dd)," << endl;
+        cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
         do {
-            cout << endl << "Enter again date in format (yyyy-mm-dd)," \
-                 "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+            if (numberOfRepetitions > 0) {
+                system("cls");
+                cout << " >>> ADDING NEW INCOME <<<" << endl << endl;
+                cout << "Enter again date in format (yyyy-mm-dd)," << endl;
+                cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
+            }
             do {
+                if (numberOfRepetitions > 0) {
+                    system("cls");
+                    cout << " >>> ADDING NEW INCOME <<<" << endl << endl;
+                    cout << "Enter again date in format (yyyy-mm-dd)," << endl;
+                    cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
+                }
                 date = AuxilaryMethods::loadLines();
+                numberOfRepetitions++;
             } while (!DateGenerator::checkFormatDate(date));
             incomeDate = DateGenerator::convertDateToInt(date);
             income.setIncomeDate(incomeDate);
+            numberOfRepetitions++;
         } while ( !DateGenerator::checkDate(date) );
     }
     cout << "Enter a type of income: ";
@@ -101,6 +116,7 @@ Expense BudgetManager::enterNewExpense() {
     Expense expense;
     string date = "", item = "";
     int expenseDate = 0;
+    int numberOfRepetitions = 0;
 
     expense.setExpenseId(expenseFile.getLastExpenseId() + 1);
     expense.setUserId(LOGGED_USER_ID);
@@ -117,14 +133,28 @@ Expense BudgetManager::enterNewExpense() {
         expense.setExpenseDate(expenseDate);
         cout << endl << "Current date is: " << date << endl;
     } else {
+        cout << endl << "Enter again date in format (yyyy-mm-dd)," << endl;
+        cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
         do {
-            cout << endl << "Enter again date in format (yyyy-mm-dd),";
-            cout << "where 'y' key stand for year, 'm' key stands for month and 'd' key stands for day: ";
+            if (numberOfRepetitions > 0) {
+                system("cls");
+                cout << " >>> ADDING NEW EXPENSE <<<" << endl << endl;
+                cout << endl << "Enter again date in format (yyyy-mm-dd)," << endl;
+                cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
+            }
             do {
+                if (numberOfRepetitions > 0) {
+                    system("cls");
+                    cout << " >>> ADDING NEW EXPENSE <<<" << endl << endl;
+                    cout << endl << "Enter again date in format (yyyy-mm-dd)," << endl;
+                    cout << "where 'y' key stands for year, 'm' key stands for month and 'd' key stands for day: ";
+                }
                 date = AuxilaryMethods::loadLines();
+                numberOfRepetitions++;
             } while (!DateGenerator::checkFormatDate(date));
             expenseDate = DateGenerator::convertDateToInt(date);
             expense.setExpenseDate(expenseDate);
+            numberOfRepetitions++;
         } while ( !DateGenerator::checkDate(date) );
 
     }
