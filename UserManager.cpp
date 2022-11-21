@@ -170,7 +170,6 @@ void UserManager::logInUser() {
         if (users[i].getLogin() == login) {
             cout << endl;
             for (int numberOfAttempts = 3; numberOfAttempts > 0; numberOfAttempts--) {
-                //displayMainMenu();
                 cout << "Enter password. Remaining trails: " << numberOfAttempts << ": ";
                 password = AuxilaryMethods::loadLines();
 

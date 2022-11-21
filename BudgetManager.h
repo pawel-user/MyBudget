@@ -32,7 +32,6 @@ public:
         : LOGGED_USER_ID(loggedUserId), incomeFile(incomeFilename), expenseFile(expenseFilename) {
         loadUserIncomes();
         loadUserExpenses();
-        //sortCashOperationsByDate();
      };
 
     void displayUserMenu();
